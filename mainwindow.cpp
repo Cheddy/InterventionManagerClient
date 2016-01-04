@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Managers/genericmanager.h"
+#include "Managers/Impl/staffrankmanager.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    ui->tabWidget->addTab(new StaffRankManager(), "Staff Rank Manager"); 
 }
 
 MainWindow::~MainWindow()

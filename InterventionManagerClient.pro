@@ -17,12 +17,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     Managers/genericmanager.cpp \
     Model/datastructure.cpp \
-    Model/Impl/staffrank.cpp
+    Model/Impl/staffrank.cpp \
+    Network/netutils.cpp \
+    Managers/Impl/staffrankmanager.cpp
 
 HEADERS  += mainwindow.h \
     Managers/genericmanager.h \
     Model/datastructure.h \
-    Model/Impl/staffrank.h
+    Model/Impl/staffrank.h \
+    Network/netutils.h \
+    Managers/Impl/staffrankmanager.h
 
 FORMS    += mainwindow.ui \
     Managers/genericmanager.ui
