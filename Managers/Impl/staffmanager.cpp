@@ -106,7 +106,7 @@ void StaffManager::onEdit(DataStructure *structure)
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member (Likely caused by existing member with the desired name)");
         refresh();    
     }
-    if(((Staff *) structure)->getId() == MainWindow::user.getId()){   
+    if(((Staff *) structure)->getId() == MainWindow::user.getId() && !((Staff *) structure)->getPasswordHash().isEmpty()){   
         MainWindow::user = *((Staff *) structure);
     }    
 }

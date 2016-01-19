@@ -102,51 +102,16 @@ void InterventionForm::on_buttonBox_accepted()
     var.setValue(intervention);
     item->setData(Qt::UserRole, var);
     
-    QString detailsList;
-    if(intervention.getDetails().length() > 0){
-        detailsList += "[";    
-        for(int i = 0; i < intervention.getDetails().length(); i++){
-            if(i > 0){
-                detailsList += ", ";
-            }
-            detailsList += intervention.getDetails()[i].getDescription();
-        }
-        detailsList += "]";
-    }
-    
-    QString actionsList;
-    if(intervention.getActions().length() > 0){
-        actionsList += "[";    
-        for(int i = 0; i < intervention.getActions().length(); i++){
-            if(i > 0){
-                actionsList += ", ";
-            }
-            actionsList += intervention.getActions()[i].getDescription();
-        }
-        actionsList += "]";
-    }
-    
-    QString outcomesList;
-    if(intervention.getOutcomes().length() > 0){
-        outcomesList += "[";    
-        for(int i = 0; i < intervention.getOutcomes().length(); i++){
-            if(i > 0){
-                outcomesList += ", ";
-            }
-            outcomesList += intervention.getOutcomes()[i].getDescription();
-        }
-        outcomesList += "]";
-    }
-    
+      
     item->setText(intervention.getStaff().getDisplayName());
     list[1]->setText(intervention.getDateTime().toString("yyyy/MM/dd HH:mm:ss"));
     list[2]->setText(intervention.getVerifiedStaff().getDisplayName());
     list[3]->setText(intervention.getVerifiedDateTime().toString("yyyy/MM/dd HH:mm:ss"));
     list[4]->setText(intervention.getWard().getName());    
     list[5]->setText(intervention.getPatient().getDisplayName());  
-    list[6]->setText(detailsList);  
-    list[7]->setText(actionsList);  
-    list[8]->setText(outcomesList);  
+    list[6]->setText(intervention.getDetailsList());  
+    list[7]->setText(intervention.getActionsList());  
+    list[8]->setText(intervention.getOutcomesList());  
     list[9]->setText(intervention.getCompletedStaff().getDisplayName());
     list[10]->setText(intervention.getCompletedDateTime().toString("yyyy/MM/dd HH:mm:ss"));
     list[11]->setText(intervention.getImpact().getName());    

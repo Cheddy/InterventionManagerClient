@@ -14,13 +14,13 @@ public:
     QString getName() const;
     void setName(const QString &value);
     
-    int getPermissions() const;
-    void setPermissions(int value);
+    long long getPermissions() const;
+    void setPermissions(long long value);
     
 private:
     long long id = -1;
     QString name;
-    int permissions = 0;
+    long long permissions = 0;
     
 public slots:
     void read(const QJsonObject &json);

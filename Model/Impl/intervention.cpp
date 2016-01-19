@@ -1,6 +1,11 @@
 #include "intervention.h"
 #include <QJsonArray>
 
+Intervention::Intervention()
+{
+    dateTime = QDateTime::currentDateTime();
+}
+
 long long Intervention::getId() const
 {
     return id;
@@ -202,9 +207,9 @@ void Intervention::read(const QJsonObject &json)
     verified = json["verified"].toBool();
     completed = json["completed"].toBool();
     
-    dateTime = QDateTime::fromString(json["dateTime"].toString(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
-    verifiedDateTime = QDateTime::fromString(json["verifiedDateTime"].toString(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
-    completedDateTime = QDateTime::fromString(json["completedDateTime"].toString(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
+    dateTime = QDateTime::fromString(json["dateTime"].toString(QDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
+    verifiedDateTime = QDateTime::fromString(json["verifiedDateTime"].toString(QDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
+    completedDateTime = QDateTime::fromString(json["completedDateTime"].toString(QDateTime().toString("yyyy-MM-dd HH:mm:ss")),"yyyy-MM-dd HH:mm:ss");
     
 }
 
@@ -281,4 +286,52 @@ void Intervention::write(QJsonObject &json)
     }
     json["outcomes"] = arrayOutcomes;
     
+}
+
+QString Intervention::getActionsList()
+{
+    QString actionsList;
+    if(getActions().length() > 0){
+        actionsList += "[";    
+        for(int i = 0; i < getActions().length(); i++){
+            if(i > 0){
+                actionsList += ", ";
+            }
+            actionsList += getActions()[i].getDescription();
+        }
+        actionsList += "]";
+    }
+    return actionsList;
+}
+
+QString Intervention::getDetailsList()
+{
+    QString detailsList;
+    if(getDetails().length() > 0){
+        detailsList += "[";    
+        for(int i = 0; i < getDetails().length(); i++){
+            if(i > 0){
+                detailsList += ", ";
+            }
+            detailsList += getDetails()[i].getDescription();
+        }
+        detailsList += "]";
+    }
+    return detailsList;
+}
+
+QString Intervention::getOutcomesList()
+{
+    QString outcomesList;
+    if(getOutcomes().length() > 0){
+        outcomesList += "[";    
+        for(int i = 0; i < getOutcomes().length(); i++){
+            if(i > 0){
+                outcomesList += ", ";
+            }
+            outcomesList += getOutcomes()[i].getDescription();
+        }
+        outcomesList += "]";
+    }
+    return outcomesList;
 }

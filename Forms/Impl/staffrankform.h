@@ -1,7 +1,7 @@
 #ifndef STAFFRANKFORM_H
 #define STAFFRANKFORM_H
 #include <QLineEdit>
-#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include "Forms/abstractform.h"
 
 class StaffRankForm : public AbstractForm
@@ -9,7 +9,7 @@ class StaffRankForm : public AbstractForm
 public:
     StaffRankForm(QListWidgetItem *item);
     QLineEdit *nameField;
-    QSpinBox *permissionField;
+    QDoubleSpinBox *permissionField;
     
 public slots:
     void save();    

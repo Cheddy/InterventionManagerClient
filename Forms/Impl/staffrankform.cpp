@@ -6,9 +6,10 @@ StaffRankForm::StaffRankForm(QListWidgetItem *item) :
     AbstractForm(item)
 {
     nameField = new QLineEdit(this->item->data(Qt::UserRole).value<StaffRank>().getName());
-    permissionField = new QSpinBox();
-    permissionField->setMaximum(INT32_MAX);
+    permissionField = new QDoubleSpinBox();
     permissionField->setMinimum(0);
+    permissionField->setMaximum(9007199254740992);
+    permissionField->setDecimals(0);    
     permissionField->setValue(this->item->data(Qt::UserRole).value<StaffRank>().getPermissions());
     
     ui->formLayout->addRow(new QLabel("Name"), nameField);
@@ -22,7 +23,7 @@ void StaffRankForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     StaffRank rank = var.value<StaffRank>();
     rank.setName(nameField->text());
-    rank.setPermissions(permissionField->value());
+    rank.setPermissions((long long) permissionField->value());
     var.setValue(rank);
     item->setData(Qt::UserRole, var);
     item->setText(rank.getName());

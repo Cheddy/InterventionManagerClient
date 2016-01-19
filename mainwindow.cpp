@@ -7,7 +7,6 @@
 #include "Managers/Impl/impactmanager.h"
 #include "Managers/Impl/staffmanager.h"
 #include "Managers/Impl/staffmanager.h"
-#include "Managers/Impl/interventionactionmanager.h"
 #include "interventionmanager.h"
 #include "Model/Impl/staff.h"
 
@@ -26,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(new PatientManager(), "Patient Manager");         
     ui->tabWidget->addTab(new ImpactManager(), "Impact Manager");      
     ui->tabWidget->addTab(new StaffManager(), "Staff Manager");        
-    ui->tabWidget->addTab(new InterventionActionManager(), "Intervention Action Manager");             
-    
-    
 }
 
 MainWindow::~MainWindow()

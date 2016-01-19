@@ -16,6 +16,8 @@
 class Intervention : public DataStructure
 {
 public:
+    Intervention();
+    
     long long getId() const;
     void setId(long long value);
     
@@ -60,6 +62,12 @@ public:
     
     Staff getCompletedStaff() const;
     void setCompletedStaff(const Staff &value);
+    
+    QString getDetailsList();
+    
+    QString getActionsList();
+    
+    QString getOutcomesList();
     
 private:
     long long id = -1;

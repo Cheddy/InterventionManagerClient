@@ -1,11 +1,11 @@
 #include "staffrank.h"
 
-int StaffRank::getPermissions() const
+long long StaffRank::getPermissions() const
 {
     return permissions;
 }
 
-void StaffRank::setPermissions(int value)
+void StaffRank::setPermissions(long long value)
 {
     permissions = value;
 }
@@ -34,7 +34,7 @@ void StaffRank::read(const QJsonObject &json)
 {
     name = json["name"].toString();
     id = (long long) json["id"].toDouble();
-    permissions = json["permissions"].toInt();
+    permissions = (long long) json["permissions"].toDouble();
 }
 
 void StaffRank::write(QJsonObject &json)
