@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QAuthenticator>
+#include <Model/datastructure.h>
 
 
 class NetUtils : public QObject
@@ -14,10 +15,8 @@ class NetUtils : public QObject
 public:
     explicit NetUtils(QObject *parent = 0);
     QString get(QString url);
+    int post(QString url, DataStructure *structure);
     QNetworkAccessManager *manager;
-        
-private slots:
-    void handleAuth(QNetworkReply* reply,QAuthenticator* auth);
 };
 
 #endif // NETUTILS_H

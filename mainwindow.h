@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "Model/Impl/staff.h"
 
 namespace Ui {
 class MainWindow;
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();    
+    static Staff user;
     
 private slots:
     void closeTab(int index);

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InterventionManager</class>
+ <widget class="QWidget" name="InterventionManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Functions</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="newButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>New</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="editButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Edit</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QTableWidget" name="tableWidget">
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Staff Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date/Time</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Verifying Staff Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date Verified</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Ward</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Patient</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Details</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Actions</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Outcomes</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Completing Staff Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date Completed</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Impact</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

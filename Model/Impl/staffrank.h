@@ -2,12 +2,12 @@
 #define STAFFRANK_H
 
 #include "Model/datastructure.h"
+#include <QMetaType>
 
 class StaffRank : public DataStructure
 {
-public:
-    StaffRank();
     
+public:
     long long getId() const;
     void setId(long long value);
     
@@ -27,5 +27,6 @@ public slots:
     void write(QJsonObject &json);
     
 };
+Q_DECLARE_METATYPE(StaffRank)
 
 #endif // STAFFRANK_H

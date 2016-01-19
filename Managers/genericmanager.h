@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Model/datastructure.h"
+#include "ui_genericmanager.h"
 
 namespace Ui {
 class GenericManager;
@@ -15,12 +16,11 @@ class GenericManager : public QWidget
 public:
     explicit GenericManager(QWidget *parent = 0);
     ~GenericManager();
-    QList<DataStructure*> data;
     
 public slots:
-    virtual DataStructure* add() = 0;    
-    virtual DataStructure* edit() = 0;   
-    virtual DataStructure* deleteFunction() = 0;    
+    virtual void add() = 0;    
+    virtual void edit() = 0;   
+    virtual void deleteFunction() = 0;    
     virtual void refresh() = 0;                
     virtual void onAdd(DataStructure *structure) = 0;
     virtual void onEdit(DataStructure *structure) = 0;
@@ -35,7 +35,7 @@ private slots:
     
     void on_refreshButton_clicked();
     
-private:
+protected:
     Ui::GenericManager *ui;
 };
 

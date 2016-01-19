@@ -9,9 +9,9 @@ public:
     StaffRankManager();
     
 public slots:
-    DataStructure* add();    
-    DataStructure* edit();   
-    DataStructure* deleteFunction();    
+    void add();    
+    void edit();   
+    void deleteFunction();    
     void refresh();                
     void onAdd(DataStructure *structure);
     void onEdit(DataStructure *structure);

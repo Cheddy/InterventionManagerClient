@@ -1,10 +1,5 @@
 #include "staffrank.h"
 
-StaffRank::StaffRank()
-{
-    
-}
-
 int StaffRank::getPermissions() const
 {
     return permissions;

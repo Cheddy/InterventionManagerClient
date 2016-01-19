@@ -1,5 +1,4 @@
 #include "genericmanager.h"
-#include "ui_genericmanager.h"
 
 GenericManager::GenericManager(QWidget *parent) :
     QWidget(parent),
@@ -15,17 +14,17 @@ GenericManager::~GenericManager()
 
 void GenericManager::on_newButton_clicked()
 {
-    onAdd(add());
+    add();
 }
 
 void GenericManager::on_editButton_clicked()
 {
-    onEdit(edit());
+    edit();
 }
 
 void GenericManager::on_deleteButton_clicked()
 {
-    onDelete(deleteFunction());
+    deleteFunction();
 }
 
 void GenericManager::on_refreshButton_clicked()
