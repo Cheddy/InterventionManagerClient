@@ -4,7 +4,6 @@
 #include "Forms/Impl/staffform.h"
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDebug>
 #include <QList>
 #include <QMessageBox>
 #include "mainwindow.h"
@@ -13,7 +12,28 @@
 
 StaffManager::StaffManager()
 {
+    onPermissionsChanged();
     refresh();
+}
+
+void StaffManager::onPermissionsChanged()
+{
+    long long permissions = MainWindow::user.getRank().getPermissions();    
+    if((permissions & MainWindow::NEW_STAFF_PERMISSION) == 0){
+        ui->newButton->setVisible(false);
+    }else{
+        ui->newButton->setVisible(true);        
+    }
+    if((permissions & MainWindow::EDIT_STAFF_PERMISSION) == 0){
+        ui->editButton->setVisible(false);
+    }else{
+        ui->editButton->setVisible(true);
+    }
+    if((permissions & MainWindow::DELETE_STAFF_PERMISSION) == 0){
+        ui->deleteButton->setVisible(false);
+    }else{
+        ui->deleteButton->setVisible(true);
+    }
 }
 
 void StaffManager::add()
@@ -46,12 +66,17 @@ void StaffManager::edit()
     if(!list.isEmpty()){
         QListWidgetItem *item = list.takeFirst();
         
+        QVariant var = item->data(Qt::UserRole);   
+        Staff original = var.value<Staff>();                
+        
         StaffForm *form = new StaffForm(item);
         int code = form->exec();
         if(code == QDialog::Accepted){
-            QVariant var = item->data(Qt::UserRole);   
-            Staff staff = var.value<Staff>();        
-            onEdit(&staff);
+            var = item->data(Qt::UserRole);   
+            Staff staff = var.value<Staff>();  
+            if(original != staff){
+                onEdit(&staff);
+            }
         }
         
     }
@@ -74,7 +99,7 @@ void StaffManager::refresh()
 {
     ui->listWidget->clear();
     NetUtils net;
-    QString html = net.get("http://localhost:8080/staff/all");
+    QString html = net.get("staff/all");
     QJsonDocument loadDoc(QJsonDocument::fromJson(html.toUtf8()));
     QJsonArray array = loadDoc.array();
     for(int i = 0; i < array.size(); i++){
@@ -91,7 +116,7 @@ void StaffManager::refresh()
 void StaffManager::onAdd(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/staff/save", structure);  
+    int response = net.post("staff/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Adding New Member (Likely caused by existing member with the name \"New Member\")");
     }
@@ -101,7 +126,7 @@ void StaffManager::onAdd(DataStructure *structure)
 void StaffManager::onEdit(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/staff/save", structure);  
+    int response = net.post("staff/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member (Likely caused by existing member with the desired name)");
         refresh();    
@@ -115,7 +140,7 @@ void StaffManager::onDelete(DataStructure *structure)
 {
     if(((Staff *) structure)->getId() != MainWindow::user.getId()){
         NetUtils net;
-        int response = net.post("http://localhost:8080/staff/delete", structure);  
+        int response = net.post("staff/delete", structure);  
         if(response != 202){
             QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Deleting Member");
         }

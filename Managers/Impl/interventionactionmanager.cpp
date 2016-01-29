@@ -1,12 +1,34 @@
 #include "interventionactionmanager.h"
 #include "Network/netutils.h"
 #include "Forms/Impl/interventionactionform.h"
+#include "mainwindow.h"
 
 InterventionActionManager::InterventionActionManager()
 {
     ui->gridLayout->setContentsMargins(0,0,0,0);
     ui->horizontalLayout->removeWidget(ui->refreshButton);
     delete ui->refreshButton;
+    onPermissionsChanged();
+}
+
+void InterventionActionManager::onPermissionsChanged()
+{
+    long long permissions = MainWindow::user.getRank().getPermissions();    
+    if((permissions & MainWindow::NEW_INTERVENTION_ACTION_PERMISSION) == 0){
+        ui->newButton->setVisible(false);
+    }else{
+        ui->newButton->setVisible(true);        
+    }
+    if((permissions & MainWindow::EDIT_INTERVENTION_ACTION_PERMISSION) == 0){
+        ui->editButton->setVisible(false);
+    }else{
+        ui->editButton->setVisible(true);
+    }
+    if((permissions & MainWindow::DELETE_INTERVENTION_ACTION_PERMISSION) == 0){
+        ui->deleteButton->setVisible(false);
+    }else{
+        ui->deleteButton->setVisible(true);
+    }
 }
 
 void InterventionActionManager::add()

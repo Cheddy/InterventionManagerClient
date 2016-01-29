@@ -20,6 +20,16 @@ void Impact::setName(const QString &value)
     name = value;
 }
 
+bool Impact::operator==(Impact impact) const
+{
+    return impact.getId() == getId() && impact.getName() == getName();    
+}
+
+bool Impact::operator!=(Impact impact) const
+{
+    return !(impact == *this);
+}
+
 void Impact::read(const QJsonObject &json)
 {
     name = json["name"].toString();
@@ -30,4 +40,9 @@ void Impact::write(QJsonObject &json)
 {
     json["name"] = name;
     json["id"] = id;
+}
+
+QString Impact::toString()
+{
+    return "Name: " + name;    
 }

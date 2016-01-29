@@ -69,6 +69,9 @@ public:
     
     QString getOutcomesList();
     
+    bool operator==(Intervention intervention) const;
+    bool operator!=(Intervention intervention) const;    
+    
 private:
     long long id = -1;
     bool verified = false, completed = false;
@@ -84,6 +87,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();    
 };
 Q_DECLARE_METATYPE(Intervention)
 

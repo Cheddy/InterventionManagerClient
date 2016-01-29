@@ -17,10 +17,12 @@ public:
     ~WardComboBox();
     Ward getWard();
     void setWard(Ward ward);
+    void setWardByParameters(Ward ward);    
     bool containWards();
     
 public slots:
     void on_refreshButton_clicked();
+    void onPermissionsChanged();
     
 private:
     Ui::WardComboBox *ui;
@@ -29,6 +31,7 @@ signals:
     void countChanged(int newCount);
 private slots:
     void on_lineEdit_textChanged(const QString &text);
+    void on_newButton_clicked();
 };
 
 #endif // WARDCOMBOBOX_H

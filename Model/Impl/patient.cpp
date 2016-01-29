@@ -50,12 +50,20 @@ QString Patient::getDisplayName() const
     return QString::number(rtx) + " : " + othernames + " " + surname;
 }
 
+bool Patient::operator==(Patient patient) const
+{
+    return patient.getId() == getId() && patient.getSurname() == getSurname() && patient.getOthernames() == getOthernames() && patient.getDob() == getDob() && patient.getRtx() == getRtx();        
+}
+
+bool Patient::operator!=(Patient patient) const
+{
+    return !(patient == *this);    
+}
 
 void Patient::setOthernames(const QString &value)
 {
     othernames = value;
 }
-
 
 void Patient::read(const QJsonObject &json)
 {
@@ -73,4 +81,14 @@ void Patient::write(QJsonObject &json)
     json["id"] = id;
     json["rtx"] = rtx;
     json["dob"] = dob.toString("yyyy-MM-dd");    
+}
+
+QString Patient::toString()
+{
+    QString string;
+    string += "RTX: " + QString::number(rtx) + "<br>";    
+    string += "Surname: " + surname + "<br>";
+    string += "Other Names: " + othernames + "<br>";
+    string += "DOB: " + dob.toString("dd/MM/yyyy");
+    return string;
 }

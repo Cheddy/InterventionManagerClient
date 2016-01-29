@@ -5,6 +5,7 @@
 
 class PatientManager : public GenericManager
 {
+    Q_OBJECT
 public:
     PatientManager();
     
@@ -16,7 +17,7 @@ public slots:
     void onAdd(DataStructure *structure);
     void onEdit(DataStructure *structure);
     void onDelete(DataStructure *structure);
-    
+    void onPermissionsChanged();
 };
 
 #endif // PATIENTMANAGER_H

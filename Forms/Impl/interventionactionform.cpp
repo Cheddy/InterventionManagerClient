@@ -25,8 +25,8 @@ InterventionActionForm::InterventionActionForm(QListWidgetItem *item) :
 void InterventionActionForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     InterventionAction action = var.value<InterventionAction>();
-    action.setDescription(descriptionField->text());
-    action.setDetail(detailField->toPlainText());
+    action.setDescription(descriptionField->text().trimmed());
+    action.setDetail(detailField->toPlainText().trimmed());
     action.setDateTime(dateTimeField->dateTime());
     var.setValue(action);
     item->setData(Qt::UserRole, var);

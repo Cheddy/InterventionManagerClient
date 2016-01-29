@@ -23,6 +23,9 @@ public:
     QString getDescription() const;
     void setDescription(const QString &value);
     
+    bool operator==(InterventionOutcome interventionOutcome) const;        
+    bool operator!=(InterventionOutcome interventionOutcome) const;        
+    
 private:
     long long id = -1;
     long long interventionId;
@@ -33,6 +36,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();            
 };
 Q_DECLARE_METATYPE(InterventionOutcome)
 

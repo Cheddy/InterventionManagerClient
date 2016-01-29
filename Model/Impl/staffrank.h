@@ -17,14 +17,19 @@ public:
     long long getPermissions() const;
     void setPermissions(long long value);
     
+    long long permissions = 0LL;    
+    
+    bool operator==(StaffRank staffRank) const;    
+    bool operator!=(StaffRank staffRank) const;                
+    
 private:
-    long long id = -1;
+    long long id = -1LL;
     QString name;
-    long long permissions = 0;
     
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();            
     
 };
 Q_DECLARE_METATYPE(StaffRank)

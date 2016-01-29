@@ -29,8 +29,11 @@ public:
     
     QString getDisplayName() const;    
     
+    bool operator==(Staff staff) const;    
+    bool operator!=(Staff staff) const;            
+    
 private:
-    long long id = -1;
+    long long id = -1LL;
     QString username;
     QString surname;
     QString othernames;
@@ -40,6 +43,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();            
     
 };
 Q_DECLARE_METATYPE(Staff)

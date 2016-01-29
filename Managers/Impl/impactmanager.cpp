@@ -4,13 +4,34 @@
 #include "Forms/Impl/impactform.h"
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDebug>
 #include <QList>
 #include <QMessageBox>
+#include "mainwindow.h"
 
 ImpactManager::ImpactManager()
 {
+    onPermissionsChanged();
     refresh();
+}
+
+void ImpactManager::onPermissionsChanged()
+{
+    long long permissions = MainWindow::user.getRank().getPermissions();    
+    if((permissions & MainWindow::NEW_IMPACT_PERMISSION) == 0){
+        ui->newButton->setVisible(false);
+    }else{
+        ui->newButton->setVisible(true);        
+    }
+    if((permissions & MainWindow::EDIT_IMPACT_PERMISSION) == 0){
+        ui->editButton->setVisible(false);
+    }else{
+        ui->editButton->setVisible(true);
+    }
+    if((permissions & MainWindow::DELETE_IMPACT_PERMISSION) == 0){
+        ui->deleteButton->setVisible(false);
+    }else{
+        ui->deleteButton->setVisible(true);
+    }
 }
 
 void ImpactManager::add()
@@ -42,12 +63,17 @@ void ImpactManager::edit()
     if(!list.isEmpty()){
         QListWidgetItem *item = list.takeFirst();
         
+        QVariant var = item->data(Qt::UserRole);   
+        Impact original = var.value<Impact>();                
+        
         ImpactForm *form = new ImpactForm(item);
         int code = form->exec();
         if(code == QDialog::Accepted){
-            QVariant var = item->data(Qt::UserRole);   
-            Impact impact = var.value<Impact>();        
-            onEdit(&impact);
+            var = item->data(Qt::UserRole);   
+            Impact impact = var.value<Impact>();      
+            if(original != impact){
+                onEdit(&impact);
+            }
         }
         
     }
@@ -70,7 +96,7 @@ void ImpactManager::refresh()
 {
     ui->listWidget->clear();
     NetUtils net;
-    QString html = net.get("http://localhost:8080/impact/all");
+    QString html = net.get("impact/all");
     QJsonDocument loadDoc(QJsonDocument::fromJson(html.toUtf8()));
     QJsonArray array = loadDoc.array();
     for(int i = 0; i < array.size(); i++){
@@ -87,7 +113,7 @@ void ImpactManager::refresh()
 void ImpactManager::onAdd(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/impact/save", structure);  
+    int response = net.post("impact/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Adding New Member (Likely caused by existing member with the name \"New Member\")");
     }
@@ -97,7 +123,7 @@ void ImpactManager::onAdd(DataStructure *structure)
 void ImpactManager::onEdit(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/impact/save", structure);  
+    int response = net.post("impact/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member (Likely caused by existing member with the desired name)");
         refresh();    
@@ -107,7 +133,7 @@ void ImpactManager::onEdit(DataStructure *structure)
 void ImpactManager::onDelete(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/impact/delete", structure);  
+    int response = net.post("impact/delete", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Deleting Member");
     }

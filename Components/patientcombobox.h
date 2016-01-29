@@ -17,10 +17,12 @@ public:
     ~PatientComboBox();
     Patient getPatient();
     void setPatient(Patient rank);
+    void setPatientByRTX(Patient rank);    
     bool containPatients();
     
 public slots:
     void on_refreshButton_clicked();
+    void onPermissionsChanged();
     
 private:
     Ui::PatientComboBox *ui;
@@ -29,6 +31,7 @@ signals:
     void countChanged(int newCount);
 private slots:
     void on_lineEdit_textChanged(const QString &text);
+    void on_newButton_clicked();
 };
 
 #endif // PATIENTCOMBOBOX_H

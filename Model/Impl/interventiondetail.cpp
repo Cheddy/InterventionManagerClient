@@ -41,6 +41,16 @@ void InterventionDetail::setDescription(const QString &value)
     description = value;
 }
 
+bool InterventionDetail::operator==(InterventionDetail interventionDetail) const
+{
+    return interventionDetail.getId() == getId() && interventionDetail.getInterventionId() == getInterventionId() && interventionDetail.getDescription() == getDescription() && interventionDetail.getDetail() == getDetail();        
+}
+
+bool InterventionDetail::operator!=(InterventionDetail interventionDetail) const
+{
+    return !(interventionDetail == *this);
+}
+
 void InterventionDetail::read(const QJsonObject &json)
 {
     description = json["description"].toString();
@@ -55,4 +65,12 @@ void InterventionDetail::write(QJsonObject &json)
     json["detail"] = detail;    
     json["id"] = id;
     json["interventionId"] = interventionId;
+}
+
+QString InterventionDetail::toString()
+{
+    QString string;
+    string += "\n\t<li><span style=\"font-family:arial,helvetica,sans-serif;\">Description: " + description + "<br>";
+    string += "Detail: " + detail.replace("\n"," || ") + "</span></li>";
+    return string;
 }

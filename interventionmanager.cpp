@@ -6,6 +6,9 @@
 #include "Network/netutils.h"
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QPrintDialog>
 
 InterventionManager::InterventionManager(QWidget *parent) :
     QWidget(parent),
@@ -48,7 +51,7 @@ void InterventionManager::on_newButton_clicked()
         }
         intervention = var.value<Intervention>(); 
         NetUtils net;
-        int response = net.post("http://localhost:8080/intervention/save", &intervention);  
+        int response = net.post("intervention/save", &intervention);  
         if(response != 202){
             QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Adding New Member (Likely caused by existing member with the name \"New Member\")");
         }
@@ -64,15 +67,18 @@ void InterventionManager::on_newButton_clicked()
 void InterventionManager::on_editButton_clicked()
 {
     QList<QTableWidgetItem *> list = ui->tableWidget->selectedItems();
-    if(!list.isEmpty() && list.length() == ui->tableWidget->columnCount()){        
+    if(!list.isEmpty() && list.length() == ui->tableWidget->columnCount()){      
+        Intervention original = list[0]->data(Qt::UserRole).value<Intervention>();        
         InterventionForm *form = new InterventionForm(list);
         int code = form->exec();
         if(code == QDialog::Accepted){
             Intervention intervention = list[0]->data(Qt::UserRole).value<Intervention>();
-            NetUtils net;
-            int response = net.post("http://localhost:8080/intervention/save", &intervention);  
-            if(response != 202){
-                QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member");
+            if(original != intervention){
+                NetUtils net;
+                int response = net.post("intervention/save", &intervention);  
+                if(response != 202){
+                    QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member");
+                }
             }
         }
     }
@@ -87,7 +93,7 @@ void InterventionManager::on_deleteButton_clicked()
             QVariant var = item->data(Qt::UserRole);   
             Intervention intervention = var.value<Intervention>();       
             NetUtils net;            
-            int response = net.post("http://localhost:8080/intervention/delete", &intervention);  
+            int response = net.post("intervention/delete", &intervention);  
             if(response != 202){
                 QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Deleting Member");
             }
@@ -101,7 +107,7 @@ void InterventionManager::on_refreshButton_clicked()
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
     NetUtils net;
-    QString html = net.get("http://localhost:8080/intervention/all");
+    QString html = net.get("intervention/all");
     QJsonDocument loadDoc(QJsonDocument::fromJson(html.toUtf8()));
     QJsonArray array = loadDoc.array();
     for(int i = 0; i < array.size(); i++){
@@ -137,5 +143,24 @@ void InterventionManager::on_refreshButton_clicked()
         for(int i = 0; i < list.length(); i++){
             ui->tableWidget->setItem(0,i,list[i]);            
         }
+    }
+}
+
+void InterventionManager::on_viewButton_clicked()
+{
+    QList<QTableWidgetItem *> list = ui->tableWidget->selectedItems();
+    if(!list.isEmpty() && list.length() == ui->tableWidget->columnCount()){        
+        Intervention intervention = list[0]->data(Qt::UserRole).value<Intervention>();
+        QString html = intervention.toString();
+        QTextDocument *newDocument = new QTextDocument();
+        newDocument->setHtml(html);
+        QPrinter printer(QPrinter::ScreenResolution);
+        printer.setPaperSize(QPrinter::A4);    
+        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+        if (dialog->exec() == QDialog::Accepted) {
+            newDocument->print(&printer);
+        }
+        
+        delete newDocument;
     }
 }

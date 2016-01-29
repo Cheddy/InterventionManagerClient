@@ -31,9 +31,9 @@ StaffForm::StaffForm(QListWidgetItem *item) :
 void StaffForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     Staff staff = var.value<Staff>();
-    staff.setSurname(surnameField->text());
-    staff.setOthernames(othernamesField->text());
-    staff.setUsername(usernameField->text().toLower());    
+    staff.setSurname(surnameField->text().trimmed());
+    staff.setOthernames(othernamesField->text().trimmed());
+    staff.setUsername(usernameField->text().toLower().trimmed());    
     staff.setRank(rankField->getStaffRank());
     
     if(!passwordField->text().isEmpty()){

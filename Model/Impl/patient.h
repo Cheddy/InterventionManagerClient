@@ -25,6 +25,9 @@ public:
     
     QString getDisplayName() const;
     
+    bool operator==(Patient patient) const;    
+    bool operator!=(Patient patient) const;        
+    
 private:
     long long id = -1;
     long long rtx = 0;
@@ -35,6 +38,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();            
 };
 Q_DECLARE_METATYPE(Patient)
 

@@ -16,7 +16,7 @@ ImpactForm::ImpactForm(QListWidgetItem *item) :
 void ImpactForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     Impact impact = var.value<Impact>();
-    impact.setName(nameField->text());
+    impact.setName(nameField->text().trimmed());
     var.setValue(impact);
     item->setData(Qt::UserRole, var);
     item->setText(impact.getName());

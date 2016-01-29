@@ -14,6 +14,9 @@ public:
     QString getName() const;
     void setName(const QString &value);
     
+    bool operator==(Impact impact) const;
+    bool operator!=(Impact impact) const;
+
 private:
     long long id = -1;
     QString name;
@@ -21,6 +24,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();    
     
 };
 Q_DECLARE_METATYPE(Impact)

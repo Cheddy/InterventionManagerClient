@@ -5,6 +5,7 @@
 
 class WardManager : public GenericManager
 {
+    Q_OBJECT
 public:
     WardManager();
     
@@ -16,7 +17,7 @@ public slots:
     void onAdd(DataStructure *structure);
     void onEdit(DataStructure *structure);
     void onDelete(DataStructure *structure);
-    
+    void onPermissionsChanged();
 };
 
 #endif // WARDMANAGER_H

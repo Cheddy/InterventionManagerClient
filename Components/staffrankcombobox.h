@@ -17,10 +17,12 @@ public:
     ~StaffRankComboBox();
     StaffRank getStaffRank();
     void setStaffRank(StaffRank rank);
+    void setStaffRankByName(StaffRank rank);    
     bool containStaffRanks();
     
 public slots:
     void on_refreshButton_clicked();
+    void onPermissionsChanged();
     
 private:
     Ui::StaffRankComboBox *ui;
@@ -29,6 +31,7 @@ signals:
     void countChanged(int newCount);
 private slots:
     void on_lineEdit_textChanged(const QString &text);
+    void on_newButton_clicked();
 };
 
 #endif // STAFFRANKCOMBOBOX_H

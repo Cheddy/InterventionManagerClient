@@ -12,7 +12,6 @@ class GenericManager;
 class GenericManager : public QWidget
 {
     Q_OBJECT
-    
 public:
     explicit GenericManager(QWidget *parent = 0);
     ~GenericManager();

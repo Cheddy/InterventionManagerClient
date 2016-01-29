@@ -50,6 +50,16 @@ void InterventionAction::setDescription(const QString &value)
     description = value;
 }
 
+bool InterventionAction::operator==(InterventionAction interventionAction) const
+{
+    return interventionAction.getId() == getId() && interventionAction.getInterventionId() == getInterventionId() && interventionAction.getDescription() == getDescription() && interventionAction.getDateTime() == getDateTime() && interventionAction.getDetail() == getDetail();
+}
+
+bool InterventionAction::operator!=(InterventionAction interventionAction) const
+{
+    return !(interventionAction == *this);
+}
+
 void InterventionAction::read(const QJsonObject &json)
 {
     description = json["description"].toString();
@@ -66,4 +76,13 @@ void InterventionAction::write(QJsonObject &json)
     json["id"] = id;
     json["interventionId"] = interventionId;
     json["dateTime"] = dateTime.toString("yyyy-MM-dd HH:mm:ss");        
+}
+
+QString InterventionAction::toString()
+{
+    QString string;
+    string += "\n\t<li><span style=\"font-family:arial,helvetica,sans-serif;\">Description: " + description + "<br>";
+    string += "Date/Time: " + dateTime.toString("HH:mm dd/MM/yyyy") + "<br>";        
+    string += "Detail: " + detail.replace("\n"," || ") + "</span></li>";
+    return string;
 }

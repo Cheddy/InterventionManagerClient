@@ -16,7 +16,7 @@ HospitalForm::HospitalForm(QListWidgetItem *item) :
 void HospitalForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     Hospital hospital = var.value<Hospital>();
-    hospital.setName(nameField->text());
+    hospital.setName(nameField->text().trimmed());
     var.setValue(hospital);
     item->setData(Qt::UserRole, var);
     item->setText(hospital.getName());

@@ -25,8 +25,8 @@ InterventionOutcomeForm::InterventionOutcomeForm(QListWidgetItem *item) :
 void InterventionOutcomeForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     InterventionOutcome outcome = var.value<InterventionOutcome>();
-    outcome.setDescription(descriptionField->text());
-    outcome.setDetail(detailField->toPlainText());
+    outcome.setDescription(descriptionField->text().trimmed());
+    outcome.setDetail(detailField->toPlainText().trimmed());
     outcome.setDateTime(dateTimeField->dateTime());
     var.setValue(outcome);
     item->setData(Qt::UserRole, var);

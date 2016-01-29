@@ -21,8 +21,8 @@ InterventionDetailForm::InterventionDetailForm(QListWidgetItem *item) :
 void InterventionDetailForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     InterventionDetail detail = var.value<InterventionDetail>();
-    detail.setDescription(descriptionField->text());
-    detail.setDetail(detailField->toPlainText());
+    detail.setDescription(descriptionField->text().trimmed());
+    detail.setDetail(detailField->toPlainText().trimmed());
     var.setValue(detail);
     item->setData(Qt::UserRole, var);
     item->setText(detail.getDescription());

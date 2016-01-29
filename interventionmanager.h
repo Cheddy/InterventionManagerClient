@@ -24,6 +24,8 @@ private slots:
     
     void on_refreshButton_clicked();
     
+    void on_viewButton_clicked();
+    
 private:
     Ui::InterventionManager *ui;
 };

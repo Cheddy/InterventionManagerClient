@@ -30,6 +30,16 @@ void Ward::setHospital(const Hospital &value)
     hospital = value;
 }
 
+bool Ward::operator==(Ward ward) const
+{
+    return ward.getId() == getId() && ward.getName() == getName() && ward.getHospital().getId() == getHospital().getId();            
+}
+
+bool Ward::operator!=(Ward ward) const
+{
+    return !(ward == *this);                
+}
+
 void Ward::read(const QJsonObject &json)
 {
     name = json["name"].toString();
@@ -48,4 +58,12 @@ void Ward::write(QJsonObject &json)
         this->hospital.write(hospital);
         json["hospital"] = hospital;
     }
+}
+
+QString Ward::toString()
+{
+    QString string;
+    string += "Name: " + name + "<br>";
+    string += "Hospital: " + hospital.getName();
+    return string;
 }

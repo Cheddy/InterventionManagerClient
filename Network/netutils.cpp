@@ -12,11 +12,12 @@
 NetUtils::NetUtils(QObject *parent) : QObject(parent)
 {
     manager = new QNetworkAccessManager(this);
+    connect(manager, &QNetworkAccessManager::sslErrors, this, &NetUtils::onSSLError);
 }
 
 QString NetUtils::get(QString url)
 {
-    QNetworkRequest req = QNetworkRequest(QUrl(url));
+    QNetworkRequest req = QNetworkRequest(QUrl(QString(MainWindow::serverAddress + ":" + QString::number(MainWindow::serverPort) + "/" + url)));
     
     QString concatenated = MainWindow::user.getUsername() + ":" + MainWindow::user.getPasswordHash();
     QByteArray data = concatenated.toLocal8Bit().toBase64();
@@ -41,7 +42,7 @@ QString NetUtils::get(QString url)
 
 int NetUtils::post(QString url, DataStructure *structure)
 {
-    QNetworkRequest req = QNetworkRequest(QUrl(url));
+    QNetworkRequest req = QNetworkRequest(QUrl(QString(MainWindow::serverAddress + ":" + QString::number(MainWindow::serverPort) + "/" + url)));
     
     QString concatenated = MainWindow::user.getUsername() + ":" + MainWindow::user.getPasswordHash();
     QByteArray data = concatenated.toLocal8Bit().toBase64();
@@ -68,3 +69,9 @@ int NetUtils::post(QString url, DataStructure *structure)
     }
     return code; 
 }
+
+void NetUtils::onSSLError(QNetworkReply *reply, const QList<QSslError> &errors)
+{
+    reply->ignoreSslErrors(errors);
+}
+

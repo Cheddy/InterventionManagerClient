@@ -22,7 +22,7 @@ WardForm::WardForm(QListWidgetItem *item) :
 void WardForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     Ward ward = var.value<Ward>();
-    ward.setName(nameField->text());
+    ward.setName(nameField->text().trimmed());
     ward.setHospital(hospitalField->getHospital());
     var.setValue(ward);
     item->setData(Qt::UserRole, var);

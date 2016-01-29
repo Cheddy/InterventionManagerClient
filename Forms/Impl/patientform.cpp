@@ -29,8 +29,8 @@ PatientForm::PatientForm(QListWidgetItem *item) :
 void PatientForm::save(){
     QVariant var = item->data(Qt::UserRole);   
     Patient patient = var.value<Patient>();
-    patient.setSurname(surnameField->text());
-    patient.setOthernames(othernamesField->text());
+    patient.setSurname(surnameField->text().trimmed());
+    patient.setOthernames(othernamesField->text().trimmed());
     patient.setRtx((long long) rtxField->value());
     patient.setDob(dobField->date());
     var.setValue(patient);

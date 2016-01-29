@@ -17,6 +17,9 @@ public:
     QString get(QString url);
     int post(QString url, DataStructure *structure);
     QNetworkAccessManager *manager;
+    
+public slots:
+    void onSSLError(QNetworkReply *reply, const QList<QSslError> &errors);
 };
 
 #endif // NETUTILS_H

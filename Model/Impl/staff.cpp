@@ -55,6 +55,16 @@ QString Staff::getDisplayName() const
     return othernames + " " + surname + (!username.isEmpty()? (" [" + username + "]") : "");
 }
 
+bool Staff::operator==(Staff staff) const
+{
+    return staff.getId() == getId() && staff.getPasswordHash() == getPasswordHash() && staff.getRank().getId() == getRank().getId() && staff.getSurname() == getSurname() && staff.getOthernames() == getOthernames() && staff.getUsername() == getUsername();            
+}
+
+bool Staff::operator!=(Staff staff) const
+{
+    return !(staff == *this);        
+}
+
 long long Staff::getId() const
 {
     return id;
@@ -90,4 +100,12 @@ void Staff::write(QJsonObject &json)
         this->rank.write(rank);
         json["rank"] = rank;
     }
+}
+
+QString Staff::toString()
+{
+    QString string;
+    string += "Name: " + othernames + " " + surname + "<br>";
+    string += "Position: " + rank.toString();
+    return string;
 }

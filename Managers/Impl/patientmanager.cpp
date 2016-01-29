@@ -4,14 +4,36 @@
 #include "Forms/Impl/patientform.h"
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDebug>
 #include <QList>
 #include <QMessageBox>
+#include "mainwindow.h"
 
 PatientManager::PatientManager()
 {
+    onPermissionsChanged();
     refresh();
 }
+
+void PatientManager::onPermissionsChanged()
+{
+    long long permissions = MainWindow::user.getRank().getPermissions();    
+    if((permissions & MainWindow::NEW_PATIENT_PERMISSION) == 0){
+        ui->newButton->setVisible(false);
+    }else{
+        ui->newButton->setVisible(true);        
+    }
+    if((permissions & MainWindow::EDIT_PATIENT_PERMISSION) == 0){
+        ui->editButton->setVisible(false);
+    }else{
+        ui->editButton->setVisible(true);
+    }
+    if((permissions & MainWindow::DELETE_PATIENT_PERMISSION) == 0){
+        ui->deleteButton->setVisible(false);
+    }else{
+        ui->deleteButton->setVisible(true);
+    }
+}
+
 
 void PatientManager::add()
 {
@@ -42,12 +64,17 @@ void PatientManager::edit()
     if(!list.isEmpty()){
         QListWidgetItem *item = list.takeFirst();
         
+        QVariant var = item->data(Qt::UserRole);   
+        Patient original = var.value<Patient>();                
+        
         PatientForm *form = new PatientForm(item);
         int code = form->exec();
         if(code == QDialog::Accepted){
-            QVariant var = item->data(Qt::UserRole);   
-            Patient patient = var.value<Patient>();        
-            onEdit(&patient);
+            var = item->data(Qt::UserRole);   
+            Patient patient = var.value<Patient>();  
+            if(original != patient){
+                onEdit(&patient);
+            }
         }
         
     }
@@ -70,7 +97,7 @@ void PatientManager::refresh()
 {
     ui->listWidget->clear();
     NetUtils net;
-    QString html = net.get("http://localhost:8080/patient/all");
+    QString html = net.get("patient/all");
     QJsonDocument loadDoc(QJsonDocument::fromJson(html.toUtf8()));
     QJsonArray array = loadDoc.array();
     for(int i = 0; i < array.size(); i++){
@@ -87,7 +114,7 @@ void PatientManager::refresh()
 void PatientManager::onAdd(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/patient/save", structure);  
+    int response = net.post("patient/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Adding New Member (Likely caused by existing member with the name \"New Member\")");
     }
@@ -97,7 +124,7 @@ void PatientManager::onAdd(DataStructure *structure)
 void PatientManager::onEdit(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/patient/save", structure);  
+    int response = net.post("patient/save", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Editing Member (Likely caused by existing member with the desired name)");
         refresh();    
@@ -107,7 +134,7 @@ void PatientManager::onEdit(DataStructure *structure)
 void PatientManager::onDelete(DataStructure *structure)
 {
     NetUtils net;
-    int response = net.post("http://localhost:8080/patient/delete", structure);  
+    int response = net.post("patient/delete", structure);  
     if(response != 202){
         QMessageBox::warning(this, "Error!", "Error Code: " + QString::number(response) + "\nError Deleting Member");
     }

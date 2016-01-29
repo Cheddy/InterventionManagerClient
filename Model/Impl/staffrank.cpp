@@ -10,6 +10,16 @@ void StaffRank::setPermissions(long long value)
     permissions = value;
 }
 
+bool StaffRank::operator==(StaffRank staffRank) const
+{
+    return staffRank.getId() == getId() && staffRank.getPermissions() == getPermissions() && staffRank.getName() == getName();        
+}
+
+bool StaffRank::operator!=(StaffRank staffRank) const
+{
+    return !(staffRank == *this);            
+}
+
 QString StaffRank::getName() const
 {
     return name;
@@ -42,4 +52,9 @@ void StaffRank::write(QJsonObject &json)
     json["name"] = name;
     json["id"] = id;
     json["permissions"] = permissions;
+}
+
+QString StaffRank::toString()
+{
+    return "Name: " + name;
 }

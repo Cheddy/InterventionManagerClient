@@ -17,11 +17,12 @@ public:
     ~HospitalComboBox();
     Hospital getHospital();
     void setHospital(Hospital hospital);
+    void setHospitalByName(Hospital hospital);    
     bool containHospitals();
     
 public slots:
     void on_refreshButton_clicked();
-    
+    void onPermissionsChanged();
 private:
     Ui::HospitalComboBox *ui;
     
@@ -29,6 +30,7 @@ signals:
     void countChanged(int newCount);
 private slots:
     void on_lineEdit_textChanged(const QString &text);
+    void on_newButton_clicked();
 };
 
 #endif // HOSPITALCOMBOBOX_H

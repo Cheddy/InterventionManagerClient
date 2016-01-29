@@ -17,6 +17,9 @@ public:
     
     Hospital getHospital() const;
     void setHospital(const Hospital &value);
+
+    bool operator==(Ward ward) const;    
+    bool operator!=(Ward ward) const;                    
     
 private:
     long long id = -1;
@@ -26,6 +29,7 @@ private:
 public slots:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+    QString toString();            
     
 };
 Q_DECLARE_METATYPE(Ward)

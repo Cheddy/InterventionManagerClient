@@ -7,6 +7,7 @@
 
 class InterventionActionManager : public GenericManager
 {
+    Q_OBJECT
 public:
     InterventionActionManager();
     
@@ -20,6 +21,7 @@ public slots:
     void onAdd(DataStructure *structure);
     void onEdit(DataStructure *structure);
     void onDelete(DataStructure *structure);
+    void onPermissionsChanged();
 };
 
 #endif // INTERVENTIONACTIONMANAGER_H

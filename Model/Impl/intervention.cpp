@@ -335,3 +335,81 @@ QString Intervention::getOutcomesList()
     }
     return outcomesList;
 }
+
+bool Intervention::operator==(Intervention intervention) const
+{
+    if(intervention.getId() != getId() || intervention.getWard().getId() != getWard().getId() || intervention.getPatient().getId() != getPatient().getId() || intervention.getDateTime() != getDateTime() || intervention.getCompleted() != getCompleted() || intervention.getVerified() != getVerified() || intervention.getImpact().getId() != getImpact().getId() || intervention.getStaff().getId() != getStaff().getId() || intervention.getVerifiedStaff().getId() != getVerifiedStaff().getId() || intervention.getCompletedStaff().getId() != getCompletedStaff().getId() || intervention.getVerifiedDateTime() != getVerifiedDateTime() || intervention.getCompletedDateTime() != getCompletedDateTime()){
+        return false;
+    }
+    
+    if(intervention.getDetails().length() == getDetails().length()){
+        for(int i = 0; i < intervention.getDetails().length(); i++){
+            if(!getDetails().contains(intervention.getDetails()[i])){
+                return false;
+            }
+        }
+    }
+    if(intervention.getActions().length() == getActions().length()){
+        for(int i = 0; i < intervention.getActions().length(); i++){
+            if(!getActions().contains(intervention.getActions()[i])){
+                return false;
+            }
+        }
+    }
+    if(intervention.getOutcomes().length() == getOutcomes().length()){
+        for(int i = 0; i < intervention.getOutcomes().length(); i++){
+            if(!getOutcomes().contains(intervention.getOutcomes()[i])){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Intervention::operator!=(Intervention intervention) const
+{
+    return !(intervention == *this);    
+}
+
+QString Intervention::toString()
+{
+    QString details;
+    if(getDetails().length() > 0){
+        details += "<p><span style=\"font-family:arial,helvetica,sans-serif;\">Details:</span></p>\n\n<ol>";
+        for(int i = 0; i < getDetails().length(); i++){
+            details += getDetails()[i].toString();
+        }
+        details += "</ol>\n\n";    
+    }
+    
+    QString actions;
+    if(getActions().length() > 0){
+        actions += "<p><span style=\"font-family:arial,helvetica,sans-serif;\">Actions Taken:</span></p>\n\n<ol>";
+        for(int i = 0; i < getActions().length(); i++){
+            actions += getActions()[i].toString();
+        }
+        actions += "</ol>\n\n";        
+    }
+    
+    QString outcomes;
+    if(getOutcomes().length() > 0){
+        outcomes += "<p><span style=\"font-family:arial,helvetica,sans-serif;\">Outcomes:</span></p>\n\n<ol>";    
+        for(int i = 0; i < getOutcomes().length(); i++){
+            outcomes += getOutcomes()[i].toString();
+        }
+        outcomes += "</ol>\n\n";            
+    }
+    
+    QString verifiedBy;
+    if(verified){
+        verifiedBy = QString("<p>Verified By: %1</p>\n\n<p>Verified On: %2</p>\n\n").arg(verifiedStaff.getDisplayName(), verifiedDateTime.toString("HH:mm dd/MM/yyyy"));
+    }
+    QString completedBy;
+    if(completed){
+        completedBy = QString("<p>Completed By: %1</p>\n\n<p>Completed On: %2</p>\n\n").arg(completedStaff.getDisplayName(), completedDateTime.toString("HH:mm dd/MM/yyyy"));
+    }
+    
+    QString string = QString("<!doctype html>\n<html>\n<body>\n<div id=\"header\" style=\"background-color: #0065B7;color: #ffffff;font-family:arial,helvetica,sans-serif;\">\n<h1>Morecambe Bay Hospitals...</h1>\n</div>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Ward: %1</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Date/Time: %2</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Staff Name: %3</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Patient:</span></p>\n\n<p style=\"margin-left: 40px;\"><span style=\"font-family:arial,helvetica,sans-serif;\">%4</span></p>\n\n%5%6%7%8%9<p><span style=\"font-family:arial,helvetica,sans-serif;\">Impact: %10</span></p>\n</body>\n</html>")
+            .arg(ward.getName(), dateTime.toString("HH:mm dd/MM/yyyy"), staff.getDisplayName(), patient.toString(), details, verifiedBy, actions, outcomes).arg(completedBy, impact.getName());    
+    return string;
+}

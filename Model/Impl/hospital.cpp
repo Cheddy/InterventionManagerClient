@@ -31,3 +31,18 @@ void Hospital::write(QJsonObject &json)
     json["name"] = name;
     json["id"] = id;
 }
+
+QString Hospital::toString()
+{
+    return "Name: " + name;
+}
+
+bool Hospital::operator==(Hospital hospital) const
+{
+    return hospital.getId() == getId() && hospital.getName() == getName();
+}
+
+bool Hospital::operator!=(Hospital hospital) const
+{
+    return !(hospital == *this);
+}
