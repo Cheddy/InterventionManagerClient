@@ -3,6 +3,8 @@
 #include "logindialog.h"
 #include "Model/Impl/staff.h"
 #include <QSettings>
+#include <QSslSocket>
+#include <QDebug>
 
 Staff MainWindow::user = Staff();
 int MainWindow::serverPort = 8443;
@@ -11,7 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    
+    qDebug() << QSslSocket::supportsSsl();
     
     LoginDialog *loginDialog = new LoginDialog();
     loginDialog->exec();

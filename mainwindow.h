@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Model/Impl/staff.h"
+#include "Managers/Impl/staffmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();    
+    StaffManager *staffManager;
     static Staff user;
     static int serverPort;
     static QString serverAddress;
@@ -48,6 +50,9 @@ public:
     static const long long NEW_INTERVENTION_OUTCOME_PERMISSION = 1LL << 27;
     static const long long EDIT_INTERVENTION_OUTCOME_PERMISSION = 1LL << 28;
     static const long long DELETE_INTERVENTION_OUTCOME_PERMISSION = 1LL << 29;
+private slots:
+    void on_actionEdit_User_triggered();
+    
 private:
     Ui::MainWindow *ui;
 };

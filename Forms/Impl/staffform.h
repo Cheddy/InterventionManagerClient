@@ -1,7 +1,6 @@
 #ifndef STAFFFORM_H
 #define STAFFFORM_H
 #include <QLineEdit>
-#include <QSignalMapper>
 #include "Components/staffrankcombobox.h"
 #include "Forms/abstractform.h"
 

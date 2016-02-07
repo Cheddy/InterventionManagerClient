@@ -9,7 +9,7 @@
 #include "Managers/Impl/staffmanager.h"
 #include "interventionmanager.h"
 #include "Model/Impl/staff.h"
-#include <QDebug>
+#include "Forms/Impl/selfeditform.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     WardManager *wardManager = new WardManager();
     PatientManager *patientManager = new PatientManager();
     ImpactManager *impactManager = new ImpactManager();
-    StaffManager *staffManager = new StaffManager();
+    staffManager = new StaffManager();
     
     connect(staffRankManager, &StaffRankManager::permissionsChanged, staffRankManager, &StaffRankManager::onPermissionsChanged);
     connect(staffRankManager, &StaffRankManager::permissionsChanged, hospitalManager, &HospitalManager::onPermissionsChanged);    
@@ -45,10 +45,17 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tabWidget->addTab(impactManager, "Impact Manager");      
     if((permissions & (MainWindow::NEW_STAFF_PERMISSION | MainWindow::EDIT_STAFF_PERMISSION | MainWindow::DELETE_STAFF_PERMISSION)) != 0)                    
         ui->tabWidget->addTab(staffManager, "Staff Manager");  
-    
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_actionEdit_User_triggered()
+{
+    SelfEditForm *form = new SelfEditForm();
+    connect(form, &SelfEditForm::destroyed, staffManager, &StaffManager::refresh);        
+    form->exec();
+    delete form;
 }

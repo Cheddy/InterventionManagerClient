@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     Model/Impl/intervention.cpp \
     Forms/interventionform.cpp \
     interventionmanager.cpp \
-    logindialog.cpp
+    logindialog.cpp \
+    Forms/Impl/selfeditform.cpp
 
 HEADERS  += mainwindow.h \
     Managers/genericmanager.h \
@@ -96,7 +97,8 @@ HEADERS  += mainwindow.h \
     Model/Impl/intervention.h \
     Forms/interventionform.h \
     interventionmanager.h \
-    logindialog.h
+    logindialog.h \
+    Forms/Impl/selfeditform.h
 
 FORMS    += mainwindow.ui \
     Managers/genericmanager.ui \

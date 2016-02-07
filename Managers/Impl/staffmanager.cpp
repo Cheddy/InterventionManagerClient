@@ -68,7 +68,10 @@ void StaffManager::edit()
         
         QVariant var = item->data(Qt::UserRole);   
         Staff original = var.value<Staff>();                
-        
+        if(original.getId() == MainWindow::user.getId()){
+            QMessageBox::warning(this, "Error", "If you want to edit your profile, use the option in the menu. \"File->Edit User\"");            
+            return;
+        }
         StaffForm *form = new StaffForm(item);
         int code = form->exec();
         if(code == QDialog::Accepted){

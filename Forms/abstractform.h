@@ -14,7 +14,7 @@ class AbstractForm : public QDialog
     Q_OBJECT
     
 public:
-    explicit AbstractForm(QListWidgetItem *item);
+    explicit AbstractForm(QListWidgetItem *item = NULL);
     ~AbstractForm();
     
 public slots:
