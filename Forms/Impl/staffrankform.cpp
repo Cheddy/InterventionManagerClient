@@ -80,6 +80,10 @@ StaffRankForm::StaffRankForm(QListWidgetItem *item) :
     deleteInterventionOutcomeBox = new QCheckBox();
     deleteInterventionOutcomeBox->setChecked((rank.getPermissions() & MainWindow::DELETE_INTERVENTION_OUTCOME_PERMISSION) != 0);   
     
+    viewLogsBox = new QCheckBox();
+    viewLogsBox->setChecked((rank.getPermissions() & MainWindow::VIEW_LOGS_PERMISSION) != 0);
+    clearLogsBox = new QCheckBox();
+    clearLogsBox->setChecked((rank.getPermissions() & MainWindow::CLEAR_LOGS_PERMISSION) != 0);       
     
     ui->formLayout->addRow(new QLabel("Name"), nameField);
     ui->formLayout->addRow(new QLabel("Permissions"));        
@@ -113,6 +117,8 @@ StaffRankForm::StaffRankForm(QListWidgetItem *item) :
     ui->formLayout->addRow(new QLabel("Create Intervention Outcomes"), newInterventionOutcomeBox);    
     ui->formLayout->addRow(new QLabel("Edit Intervention Outcomes"), editInterventionOutcomeBox);    
     ui->formLayout->addRow(new QLabel("Delete Intervention Outcomes"), deleteInterventionOutcomeBox);        
+    ui->formLayout->addRow(new QLabel("View Logs"), viewLogsBox);    
+    ui->formLayout->addRow(new QLabel("Clear Logs"), clearLogsBox);        
    
     connect(deleteInterventionBox, &QCheckBox::toggled, this, &StaffRankForm::stateChanged);
     
@@ -156,7 +162,8 @@ void StaffRankForm::save(){
     rank.permissions |= (newInterventionOutcomeBox->isChecked()? MainWindow::NEW_INTERVENTION_OUTCOME_PERMISSION : 0);
     rank.permissions |= (editInterventionOutcomeBox->isChecked()? MainWindow::EDIT_INTERVENTION_OUTCOME_PERMISSION : 0);
     rank.permissions |= (deleteInterventionOutcomeBox->isChecked()? MainWindow::DELETE_INTERVENTION_OUTCOME_PERMISSION : 0);
-    
+    rank.permissions |= (viewLogsBox->isChecked()? MainWindow::VIEW_LOGS_PERMISSION : 0);
+    rank.permissions |= (clearLogsBox->isChecked()? MainWindow::CLEAR_LOGS_PERMISSION : 0);
     var.setValue(rank);
     item->setData(Qt::UserRole, var);
     item->setText(rank.getName());

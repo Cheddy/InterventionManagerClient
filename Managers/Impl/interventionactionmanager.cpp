@@ -110,6 +110,22 @@ QList<InterventionAction> InterventionActionManager::get()
     return list;
 }
 
+void InterventionActionManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            InterventionAction action = var.value<InterventionAction>();  
+            ViewDialog *viewDialog = new ViewDialog(&action);
+            viewDialog->exec();
+            delete viewDialog;  
+            
+        }
+    }
+}
+
 void InterventionActionManager::refresh()
 {
     

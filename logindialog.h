@@ -21,11 +21,14 @@ public:
     enum LoginStatus {SUCCESS, FAILURE, SERVER_ERROR};    
     LoginStatus attemptLogin();
     QLabel *label;
+    QPushButton *showMoreButton;
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
     void on_LoginDialog_rejected();
     void onSSLError(QNetworkReply *reply, const QList<QSslError> &errors);
-    void on_showMoreButton_clicked();
+    void showMoreClicked();
+    
+    void setOptionalsVisible(bool visible);
     
     void on_serverAddressLineEdit_textChanged(const QString &text);
     

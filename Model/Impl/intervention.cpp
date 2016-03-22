@@ -348,6 +348,8 @@ bool Intervention::operator==(Intervention intervention) const
                 return false;
             }
         }
+    }else{
+        return false;
     }
     if(intervention.getActions().length() == getActions().length()){
         for(int i = 0; i < intervention.getActions().length(); i++){
@@ -355,6 +357,8 @@ bool Intervention::operator==(Intervention intervention) const
                 return false;
             }
         }
+    }else{
+        return false;
     }
     if(intervention.getOutcomes().length() == getOutcomes().length()){
         for(int i = 0; i < intervention.getOutcomes().length(); i++){
@@ -362,6 +366,8 @@ bool Intervention::operator==(Intervention intervention) const
                 return false;
             }
         }
+    }else{
+        return false;
     }
     return true;
 }
@@ -402,14 +408,14 @@ QString Intervention::toString()
     
     QString verifiedBy;
     if(verified){
-        verifiedBy = QString("<p>Verified By: %1</p>\n\n<p>Verified On: %2</p>\n\n").arg(verifiedStaff.getDisplayName(), verifiedDateTime.toString("HH:mm dd/MM/yyyy"));
+        verifiedBy = QString("<p>Verified By: %1</p>\n\n<p>Verified On: %2</p>\n\n").arg(verifiedStaff.getPrintName(), verifiedDateTime.toString("HH:mm dd/MM/yyyy"));
     }
     QString completedBy;
     if(completed){
-        completedBy = QString("<p>Completed By: %1</p>\n\n<p>Completed On: %2</p>\n\n").arg(completedStaff.getDisplayName(), completedDateTime.toString("HH:mm dd/MM/yyyy"));
+        completedBy = QString("<p>Completed By: %1</p>\n\n<p>Completed On: %2</p>\n\n").arg(completedStaff.getPrintName(), completedDateTime.toString("HH:mm dd/MM/yyyy"));
     }
     
     QString string = QString("<!doctype html>\n<html>\n<body>\n<div id=\"header\" style=\"background-color: #0065B7;color: #ffffff;font-family:arial,helvetica,sans-serif;\">\n<h1>Morecambe Bay Hospitals...</h1>\n</div>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Ward: %1</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Date/Time: %2</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Staff Name: %3</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\">Patient:</span></p>\n\n<p style=\"margin-left: 40px;\"><span style=\"font-family:arial,helvetica,sans-serif;\">%4</span></p>\n\n%5%6%7%8%9<p><span style=\"font-family:arial,helvetica,sans-serif;\">Impact: %10</span></p>\n</body>\n</html>")
-            .arg(ward.getName(), dateTime.toString("HH:mm dd/MM/yyyy"), staff.getDisplayName(), patient.toString(), details, verifiedBy, actions, outcomes).arg(completedBy, impact.getName());    
+            .arg(ward.getName(), dateTime.toString("HH:mm dd/MM/yyyy"), staff.getPrintName(), patient.toString(), details, verifiedBy, actions, outcomes).arg(completedBy, impact.getName());    
     return string;
 }

@@ -60,6 +60,21 @@ void StaffManager::add()
     }
 }
 
+void StaffManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            Staff staff = var.value<Staff>();  
+            ViewDialog *viewDialog = new ViewDialog(&staff);
+            viewDialog->exec();
+            delete viewDialog;  
+        }
+    }
+}
+
 void StaffManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

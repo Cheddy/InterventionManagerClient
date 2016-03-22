@@ -2,6 +2,7 @@
 #define INTERVENTIONMANAGER_H
 
 #include <QWidget>
+#include <QPrinter>
 
 namespace Ui {
 class InterventionManager;
@@ -25,6 +26,8 @@ private slots:
     void on_refreshButton_clicked();
     
     void on_viewButton_clicked();
+    
+    void printPreview(QPrinter *printer);
     
 private:
     Ui::InterventionManager *ui;

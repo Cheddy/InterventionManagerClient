@@ -31,6 +31,7 @@ signals:
 private slots:
     void on_lineEdit_textChanged(const QString &text);
     void on_newButton_clicked();
+    void on_viewButton_clicked();
 };
 
 #endif // HOSPITALCOMBOBOX_H

@@ -8,6 +8,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include "mainwindow.h"
+#include "viewdialog.h"
 
 HospitalComboBox::HospitalComboBox(QWidget *parent) :
     QWidget(parent),
@@ -127,5 +128,16 @@ void HospitalComboBox::on_newButton_clicked()
         setHospitalByName(hospital);
     }else{
         delete item;
+    }
+}
+
+void HospitalComboBox::on_viewButton_clicked()
+{
+    QVariant var = ui->comboBox->currentData();
+    Hospital hospital = var.value<Hospital>();
+    if(hospital.getId() != -1){
+        ViewDialog *viewDialog = new ViewDialog(&hospital);
+        viewDialog->exec();
+        delete viewDialog;          
     }
 }

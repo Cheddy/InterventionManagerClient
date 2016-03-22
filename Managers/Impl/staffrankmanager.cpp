@@ -56,6 +56,21 @@ void StaffRankManager::add()
     }
 }
 
+void StaffRankManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            StaffRank rank = var.value<StaffRank>();        
+            ViewDialog *viewDialog = new ViewDialog(&rank);
+            viewDialog->exec();
+            delete viewDialog;  
+        }
+    }
+}
+
 void StaffRankManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

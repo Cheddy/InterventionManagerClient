@@ -131,3 +131,14 @@ void StaffRankComboBox::on_newButton_clicked()
         delete item;
     }
 }
+
+void StaffRankComboBox::on_viewButton_clicked()
+{
+    QVariant var = ui->comboBox->currentData();
+    StaffRank rank = var.value<StaffRank>();
+    if(rank.getId() != -1){
+        ViewDialog *viewDialog = new ViewDialog(&rank);
+        viewDialog->exec();
+        delete viewDialog;          
+    }
+}

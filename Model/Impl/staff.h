@@ -28,6 +28,7 @@ public:
     void setRank(const StaffRank &value);
     
     QString getDisplayName() const;    
+    QString getPrintName() const;    
     
     bool operator==(Staff staff) const;    
     bool operator!=(Staff staff) const;            

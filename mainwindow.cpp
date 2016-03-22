@@ -6,7 +6,7 @@
 #include "Managers/Impl/patientmanager.h"
 #include "Managers/Impl/impactmanager.h"
 #include "Managers/Impl/staffmanager.h"
-#include "Managers/Impl/staffmanager.h"
+#include "Managers/Impl/logmanager.h"
 #include "interventionmanager.h"
 #include "Model/Impl/staff.h"
 #include "Forms/Impl/selfeditform.h"
@@ -45,6 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tabWidget->addTab(impactManager, "Impact Manager");      
     if((permissions & (MainWindow::NEW_STAFF_PERMISSION | MainWindow::EDIT_STAFF_PERMISSION | MainWindow::DELETE_STAFF_PERMISSION)) != 0)                    
         ui->tabWidget->addTab(staffManager, "Staff Manager");  
+    if((permissions & MainWindow::VIEW_LOGS_PERMISSION) != 0){    
+        LogManager *logManager = new LogManager();            
+        ui->tabWidget->addTab(logManager, "Logs");  
+    }
+    
 }
 
 MainWindow::~MainWindow()

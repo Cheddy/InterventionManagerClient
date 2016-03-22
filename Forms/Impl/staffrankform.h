@@ -20,6 +20,7 @@ public:
     QCheckBox *newInterventionDetailBox, *editInterventionDetailBox, *deleteInterventionDetailBox;
     QCheckBox *newInterventionActionBox, *editInterventionActionBox, *deleteInterventionActionBox;
     QCheckBox *newInterventionOutcomeBox, *editInterventionOutcomeBox, *deleteInterventionOutcomeBox;
+    QCheckBox *viewLogsBox, *clearLogsBox;
     
 public slots:
     void save();

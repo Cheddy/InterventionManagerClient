@@ -13,6 +13,8 @@ TEMPLATE = app
 
 CONFIG += c++11
 
+RC_FILE = app.rc
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     Managers/genericmanager.cpp \
@@ -55,7 +57,11 @@ SOURCES += main.cpp\
     Forms/interventionform.cpp \
     interventionmanager.cpp \
     logindialog.cpp \
-    Forms/Impl/selfeditform.cpp
+    Forms/Impl/selfeditform.cpp \
+    viewdialog.cpp \
+    filterselector.cpp \
+    Managers/Impl/logmanager.cpp \
+    Model/Impl/log.cpp
 
 HEADERS  += mainwindow.h \
     Managers/genericmanager.h \
@@ -98,7 +104,11 @@ HEADERS  += mainwindow.h \
     Forms/interventionform.h \
     interventionmanager.h \
     logindialog.h \
-    Forms/Impl/selfeditform.h
+    Forms/Impl/selfeditform.h \
+    viewdialog.h \
+    filterselector.h \
+    Managers/Impl/logmanager.h \
+    Model/Impl/log.h
 
 FORMS    += mainwindow.ui \
     Managers/genericmanager.ui \
@@ -110,4 +120,6 @@ FORMS    += mainwindow.ui \
     Components/wardcombobox.ui \
     Forms/interventionform.ui \
     interventionmanager.ui \
-    logindialog.ui
+    logindialog.ui \
+    viewdialog.ui \
+    filterselector.ui

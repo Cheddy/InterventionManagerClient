@@ -1,14 +1,13 @@
-#ifndef STAFFRANKMANAGER_H
-#define STAFFRANKMANAGER_H
+#ifndef LOGMANAGER_H
+#define LOGMANAGER_H
 
 #include "Managers/genericmanager.h"
 
-class StaffRankManager : public GenericManager
+class LogManager : public GenericManager
 {
     Q_OBJECT
-    
 public:
-    StaffRankManager();
+    LogManager();
     
 public slots:
     void add();    
@@ -20,8 +19,6 @@ public slots:
     void onEdit(DataStructure *structure);
     void onDelete(DataStructure *structure);
     void onPermissionsChanged();
-signals:
-    void permissionsChanged();
 };
 
-#endif // STAFFRANKMANAGER_H
+#endif // LOGMANAGER_H

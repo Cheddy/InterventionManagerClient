@@ -130,3 +130,14 @@ void WardComboBox::on_newButton_clicked()
         delete item;
     }
 }
+
+void WardComboBox::on_viewButton_clicked()
+{
+    QVariant var = ui->comboBox->currentData();
+    Ward ward = var.value<Ward>();
+    if(ward.getId() != -1){
+        ViewDialog *viewDialog = new ViewDialog(&ward);
+        viewDialog->exec();
+        delete viewDialog;          
+    }
+}

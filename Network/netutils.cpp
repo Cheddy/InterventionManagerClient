@@ -72,6 +72,20 @@ int NetUtils::post(QString url, DataStructure *structure)
 
 void NetUtils::onSSLError(QNetworkReply *reply, const QList<QSslError> &errors)
 {
-    reply->ignoreSslErrors(errors);
+    if(!MainWindow::ignoreSSLError){
+        for(int i = 0; i < errors.length(); i++){
+            if(errors[i].errorString() == "The certificate is self-signed, and untrusted"){
+                int code = QMessageBox::question(NULL,"SSL Support", (QSslSocket::supportsSsl() == 1 ? "SSL supported, however, the certificate received is self-signed\nContinue?" :"SSL unsupported and the certificate received is self-signed\nContinue?"));            
+                if(QMessageBox::Yes != code){
+                    reply->finished();               
+                }else{
+                    MainWindow::ignoreSSLError = true;
+                }
+            }    
+        }
+    }
+    if(MainWindow::ignoreSSLError){
+        reply->ignoreSslErrors(errors);
+    }
 }
 

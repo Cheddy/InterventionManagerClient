@@ -57,6 +57,21 @@ void HospitalManager::add()
     
 }
 
+void HospitalManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            Hospital hospital = var.value<Hospital>();                   
+            ViewDialog *viewDialog = new ViewDialog(&hospital);
+            viewDialog->exec();
+            delete viewDialog;  
+        }
+    }
+}
+
 void HospitalManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

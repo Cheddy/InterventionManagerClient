@@ -8,6 +8,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include "mainwindow.h"
+#include "viewdialog.h"
 
 ImpactComboBox::ImpactComboBox(QWidget *parent) :
     QWidget(parent),
@@ -128,5 +129,16 @@ void ImpactComboBox::on_newButton_clicked()
         setImpactByName(impact);
     }else{
         delete item;
+    }
+}
+
+void ImpactComboBox::on_viewButton_clicked()
+{
+    QVariant var = ui->comboBox->currentData();
+    Impact impact = var.value<Impact>();
+    if(impact.getId() != -1){
+        ViewDialog *viewDialog = new ViewDialog(&impact);
+        viewDialog->exec();
+        delete viewDialog;          
     }
 }

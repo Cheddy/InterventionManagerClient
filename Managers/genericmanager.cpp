@@ -1,4 +1,5 @@
 #include "genericmanager.h"
+#include "viewdialog.h"
 
 GenericManager::GenericManager(QWidget *parent) :
     QWidget(parent),
@@ -30,4 +31,9 @@ void GenericManager::on_deleteButton_clicked()
 void GenericManager::on_refreshButton_clicked()
 {
     refresh();
+}
+
+void GenericManager::on_viewButton_clicked()
+{
+    view();
 }

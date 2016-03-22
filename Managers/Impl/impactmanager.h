@@ -10,7 +10,8 @@ public:
     ImpactManager();
     
 public slots:
-    void add();    
+    void add(); 
+    void view();    
     void edit();   
     void deleteFunction();    
     void refresh();                

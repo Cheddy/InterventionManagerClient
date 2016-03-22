@@ -3,17 +3,18 @@
 #include "logindialog.h"
 #include "Model/Impl/staff.h"
 #include <QSettings>
-#include <QSslSocket>
-#include <QDebug>
 
 Staff MainWindow::user = Staff();
 int MainWindow::serverPort = 8443;
 QString MainWindow::serverAddress = "https://localhost";
+bool MainWindow::ignoreSSLError = false;
+static void loadPropertiesFile();
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    qDebug() << QSslSocket::supportsSsl();
+    loadPropertiesFile();
     
     LoginDialog *loginDialog = new LoginDialog();
     loginDialog->exec();
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-void loadPropertiesFile(){
+static void loadPropertiesFile(){
     QSettings settings(QString(QApplication::applicationDirPath() + "/properties.ini"), QSettings::IniFormat);
     MainWindow::serverAddress = settings.value("serverAddress", "https://localhost").toString();
     MainWindow::serverPort = settings.value("serverPort", 8443).toInt();    

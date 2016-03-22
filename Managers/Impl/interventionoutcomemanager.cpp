@@ -54,6 +54,22 @@ void InterventionOutcomeManager::add()
     }
 }
 
+void InterventionOutcomeManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            InterventionOutcome outcome = var.value<InterventionOutcome>();        
+            ViewDialog *viewDialog = new ViewDialog(&outcome);
+            viewDialog->exec();
+            delete viewDialog;  
+            
+        }
+    }
+}
+
 void InterventionOutcomeManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

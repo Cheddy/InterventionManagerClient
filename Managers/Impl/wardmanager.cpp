@@ -57,6 +57,21 @@ void WardManager::add()
     }
 }
 
+void WardManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            Ward ward = var.value<Ward>();        
+            ViewDialog *viewDialog = new ViewDialog(&ward);
+            viewDialog->exec();
+            delete viewDialog;  
+        }
+    }
+}
+
 void WardManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

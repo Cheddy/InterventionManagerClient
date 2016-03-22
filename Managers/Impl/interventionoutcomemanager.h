@@ -13,6 +13,7 @@ public:
     
 public slots:
     void add();    
+    void view();
     void edit();   
     void deleteFunction();    
     void refresh();   

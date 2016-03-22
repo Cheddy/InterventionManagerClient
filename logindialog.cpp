@@ -9,6 +9,9 @@
 #include <QNetworkReply>
 #include <QEventLoop>
 #include <QDebug>
+#include <QSslSocket>
+#include <QMessageBox>
+#include <QTimer>
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -19,10 +22,12 @@ LoginDialog::LoginDialog(QWidget *parent) :
     label = new QLabel();
     ui->serverAddressLineEdit->setText(MainWindow::serverAddress);
     ui->serverPortSpinBox->setValue(MainWindow::serverPort);
-    ui->serverAddressLabel->hide();
-    ui->serverAddressLineEdit->hide();
-    ui->serverPortLabel->hide();
-    ui->serverPortSpinBox->hide();
+    showMoreButton = new QPushButton("Show More");
+    showMoreButton->setAutoDefault(false);
+    setOptionalsVisible(false);
+    connect(showMoreButton, &QPushButton::clicked, this, &LoginDialog::showMoreClicked);
+    ui->buttonBox->addButton(showMoreButton, QDialogButtonBox::ActionRole);
+    
 }
 
 LoginDialog::~LoginDialog()
@@ -66,7 +71,7 @@ LoginDialog::LoginStatus LoginDialog::attemptLogin()
     QNetworkAccessManager manager(this);
     connect(&manager, &QNetworkAccessManager::sslErrors, this, &LoginDialog::onSSLError);
     QNetworkReply *response = manager.get(req);
-
+    
     QEventLoop event;
     connect(response,SIGNAL(finished()),&event,SLOT(quit()));
     event.exec();
@@ -97,23 +102,52 @@ void LoginDialog::on_LoginDialog_rejected()
 
 void LoginDialog::onSSLError(QNetworkReply *reply, const QList<QSslError> &errors)
 {
-    reply->ignoreSslErrors(errors);
+    if(!MainWindow::ignoreSSLError){
+        for(int i = 0; i < errors.length(); i++){
+            if(errors[i].errorString() == "The certificate is self-signed, and untrusted"){
+                int code = QMessageBox::question(NULL,"SSL Support", (QSslSocket::supportsSsl() == 1 ? "SSL supported, however, the certificate received is self-signed\nContinue?" :"SSL unsupported and the certificate received is self-signed\nContinue?"));            
+                if(QMessageBox::Yes != code){
+                    reply->finished();               
+                }else{
+                    MainWindow::ignoreSSLError = true;
+                }
+            }    
+        }
+    }
+    if(MainWindow::ignoreSSLError){
+        reply->ignoreSslErrors(errors);
+    }
 }
 
-void LoginDialog::on_showMoreButton_clicked()
+void LoginDialog::showMoreClicked()
 {
-    if(ui->showMoreButton->text() == "Show More"){
+    if(showMoreButton->text() == "Show More"){
+        setOptionalsVisible(true);    
+    }else{
+        setOptionalsVisible(false);            
+    }
+}
+
+void LoginDialog::setOptionalsVisible(bool visible)
+{
+    if(visible){
+        ui->formLayout->insertRow(2, ui->serverAddressLabel, ui->serverAddressLineEdit);
+        ui->formLayout->insertRow(3, ui->serverPortLabel, ui->serverPortSpinBox);       
         ui->serverAddressLabel->show();
         ui->serverAddressLineEdit->show();
         ui->serverPortLabel->show();
         ui->serverPortSpinBox->show();  
-        ui->showMoreButton->setText("Show Less");
+        showMoreButton->setText("Show Less");        
     }else{
         ui->serverAddressLabel->hide();
         ui->serverAddressLineEdit->hide();
         ui->serverPortLabel->hide();
         ui->serverPortSpinBox->hide();   
-        ui->showMoreButton->setText("Show More");  
+        ui->formLayout->removeWidget(ui->serverAddressLabel);
+        ui->formLayout->removeWidget(ui->serverAddressLineEdit);        
+        ui->formLayout->removeWidget(ui->serverPortLabel);
+        ui->formLayout->removeWidget(ui->serverPortSpinBox);                     
+        showMoreButton->setText("Show More");         
     }
 }
 

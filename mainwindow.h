@@ -19,6 +19,7 @@ public:
     StaffManager *staffManager;
     static Staff user;
     static int serverPort;
+    static bool ignoreSSLError;    
     static QString serverAddress;
     static const long long NEW_HOSPITAL_PERMISSION = 1LL << 0;
     static const long long EDIT_HOSPITAL_PERMISSION = 1LL << 1;
@@ -50,6 +51,8 @@ public:
     static const long long NEW_INTERVENTION_OUTCOME_PERMISSION = 1LL << 27;
     static const long long EDIT_INTERVENTION_OUTCOME_PERMISSION = 1LL << 28;
     static const long long DELETE_INTERVENTION_OUTCOME_PERMISSION = 1LL << 29;
+    static const long long VIEW_LOGS_PERMISSION = 1LL << 30;
+    static const long long CLEAR_LOGS_PERMISSION = 1LL << 31;    
 private slots:
     void on_actionEdit_User_triggered();
     

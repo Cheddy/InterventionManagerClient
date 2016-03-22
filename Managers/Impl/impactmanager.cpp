@@ -57,6 +57,22 @@ void ImpactManager::add()
     
 }
 
+void ImpactManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            Impact impact = var.value<Impact>();      
+            ViewDialog *viewDialog = new ViewDialog(&impact);
+            viewDialog->exec();
+            delete viewDialog;  
+            
+        }
+    }
+}
+
 void ImpactManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();

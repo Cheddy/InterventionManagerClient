@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "Model/datastructure.h"
 #include "ui_genericmanager.h"
+#include "viewdialog.h"
 
 namespace Ui {
 class GenericManager;
@@ -17,8 +18,9 @@ public:
     ~GenericManager();
     
 public slots:
-    virtual void add() = 0;    
-    virtual void edit() = 0;   
+    virtual void add() = 0; 
+    virtual void view() = 0;
+    virtual void edit() = 0;
     virtual void deleteFunction() = 0;    
     virtual void refresh() = 0;                
     virtual void onAdd(DataStructure *structure) = 0;
@@ -33,6 +35,8 @@ private slots:
     void on_deleteButton_clicked();
     
     void on_refreshButton_clicked();
+    
+    void on_viewButton_clicked();
     
 protected:
     Ui::GenericManager *ui;

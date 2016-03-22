@@ -9,6 +9,7 @@
 #include <QTextDocument>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPrintPreviewDialog>
 
 InterventionManager::InterventionManager(QWidget *parent) :
     QWidget(parent),
@@ -148,19 +149,30 @@ void InterventionManager::on_refreshButton_clicked()
 
 void InterventionManager::on_viewButton_clicked()
 {
+#ifndef QT_NO_PRINTER    
+    QList<QTableWidgetItem *> list = ui->tableWidget->selectedItems();
+    if(!list.isEmpty() && list.length() == ui->tableWidget->columnCount()){        
+        QPrinter printer(QPrinter::ScreenResolution);
+        printer.setPaperSize(QPrinter::A4);    
+        QPrintPreviewDialog preview(&printer, this);
+        preview.setWindowFlags ( Qt::Window );
+        connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
+        preview.exec();
+    }
+#endif    
+}
+
+void InterventionManager::printPreview(QPrinter *printer)
+{
+#ifndef QT_NO_PRINTER
     QList<QTableWidgetItem *> list = ui->tableWidget->selectedItems();
     if(!list.isEmpty() && list.length() == ui->tableWidget->columnCount()){        
         Intervention intervention = list[0]->data(Qt::UserRole).value<Intervention>();
         QString html = intervention.toString();
         QTextDocument *newDocument = new QTextDocument();
         newDocument->setHtml(html);
-        QPrinter printer(QPrinter::ScreenResolution);
-        printer.setPaperSize(QPrinter::A4);    
-        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
-        if (dialog->exec() == QDialog::Accepted) {
-            newDocument->print(&printer);
-        }
-        
+        newDocument->print(printer);
         delete newDocument;
     }
+#endif
 }

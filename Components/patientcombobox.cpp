@@ -131,3 +131,14 @@ void PatientComboBox::on_newButton_clicked()
         delete item;
     }
 }
+
+void PatientComboBox::on_viewButton_clicked()
+{
+    QVariant var = ui->comboBox->currentData();
+    Patient patient = var.value<Patient>();
+    if(patient.getId() != -1){
+        ViewDialog *viewDialog = new ViewDialog(&patient);
+        viewDialog->exec();
+        delete viewDialog;          
+    }
+}

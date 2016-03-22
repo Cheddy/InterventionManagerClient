@@ -15,6 +15,7 @@ public slots:
     void add();  
     void add(QList<InterventionDetail> list);
     QList<InterventionDetail> get();    
+    void view();
     void edit();   
     void deleteFunction();    
     void refresh();                

@@ -58,6 +58,21 @@ void PatientManager::add()
     }
 }
 
+void PatientManager::view()
+{
+    QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
+    if(!list.isEmpty()){
+        QListWidgetItem *item = list.takeFirst();
+        if(item != NULL){
+            QVariant var = item->data(Qt::UserRole);   
+            Patient patient = var.value<Patient>();  
+            ViewDialog *viewDialog = new ViewDialog(&patient);
+            viewDialog->exec();
+            delete viewDialog;  
+        }
+    }
+}
+
 void PatientManager::edit()
 {
     QList<QListWidgetItem *> list = ui->listWidget->selectedItems();
